@@ -9,15 +9,21 @@ import {
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 
-const LaunchScreen = () => {
+const LaunchScreen = props => {
+  React.useEffect(() => {
+    setTimeout(() => {
+      props.navigation.navigate('Home');
+    }, 3000);
+  }, []);
+
   return (
     <VStack style={styles.container}>
       <Image
         resizeMode="contain"
         source={require('../../assets/starwars.png')}
-        size="2xl"
+        size="xl"
         alt="star wars"
-        padding={5}
+        margin={10}
       />
       <Image
         resizeMode="cover"
