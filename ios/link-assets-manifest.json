@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/RussoOneRegular.ttf",
+      "sha1": "4a12533ad9ee3d6c83da4ac659d78ef9fb702ab4"
+    },
+    {
+      "path": "assets/fonts/StarJedi.ttf",
+      "sha1": "795839dd1b9630949c56f447529140608bb894b7"
+    }
+  ]
+}
