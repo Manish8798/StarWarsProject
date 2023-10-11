@@ -56,7 +56,7 @@ const FilmScreen = () => {
   };
 
   const renderItem = useCallback(
-    ({item}) => (
+    ({item, index}) => (
       <Pressable onPress={() => console.log('press')}>
         <VStack style={styles.item}>
           <HStack
@@ -97,7 +97,7 @@ const FilmScreen = () => {
               resizeMode="cover"
               size="xl"
               borderRadius={'$lg'}
-              source={require('../../assets/vader.jpg')}
+              source={{uri: `https://picsum.photos/id/${index + 40}/400/600`}}
               alt="item"
             />
           </VStack>
