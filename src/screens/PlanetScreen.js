@@ -30,8 +30,8 @@ const PlanetScreen = () => {
   const renderSeparator = () => (
     <View
       style={{
-        height: 1,
-        width: 10,
+        height: 20,
+        width: '100%',
         backgroundColor: 'transparent',
       }}
     />
@@ -98,9 +98,11 @@ const PlanetScreen = () => {
   ) : (
     <VStack style={styles.container}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={data}
         contentContainerStyle={{
-          paddingBottom: 10,
+          paddingVertical: 20,
+          width: responsiveScreenWidth(90),
         }}
         keyExtractor={item => item?.name}
         ItemSeparatorComponent={renderSeparator}
@@ -116,8 +118,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   item: {
-    marginVertical: 10,
-    marginHorizontal: 20,
+    // marginVertical: 10,
+    // marginHorizontal: 20,
     alignItems: 'center',
   },
 });

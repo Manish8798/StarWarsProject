@@ -30,8 +30,8 @@ const FilmScreen = () => {
   const renderSeparator = () => (
     <View
       style={{
-        height: 1,
-        width: 10,
+        height: 20,
+        width: '100%',
         backgroundColor: 'transparent',
       }}
     />
@@ -138,11 +138,13 @@ const FilmScreen = () => {
   ) : (
     <VStack style={styles.container}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={data}
         contentContainerStyle={{
-          paddingBottom: 10,
+          paddingVertical: 20,
+          width: responsiveScreenWidth(90),
         }}
-        keyExtractor={item => item?.title} // Adjust this based on your data structure
+        keyExtractor={item => item?.title}
         ItemSeparatorComponent={renderSeparator}
         renderItem={renderItem}
       />
@@ -156,8 +158,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   item: {
-    marginVertical: 10,
-    marginHorizontal: 20,
+    // marginVertical: 10,
+    // marginHorizontal: 20,
     alignItems: 'center',
     padding: 2,
   },
