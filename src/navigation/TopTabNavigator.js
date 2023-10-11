@@ -17,7 +17,6 @@ import {
 } from '@gluestack-ui/themed';
 import {Colors} from '../utils/Theme';
 import {Search} from 'lucide-react-native';
-import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -137,6 +136,7 @@ export default function MyTabs() {
 const styles = StyleSheet.create({
   searchView: {
     backgroundColor: Colors.BACKGROUND_COLOR,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
 });
