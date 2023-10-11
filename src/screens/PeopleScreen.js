@@ -1,19 +1,23 @@
-import React, {useState} from 'react';
-import {VStack, Text, Heading} from '@gluestack-ui/themed';
+import React, {useState, useEffect, useCallback} from 'react';
+import {VStack, Text, Heading, Spinner} from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View, ScrollView} from 'react-native';
 import CardView from '../component/CardView';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 
 const PeopleScreen = () => {
-  const [data, setData] = useState([
-    {key: '1', name: 'Item 1'},
-    {key: '2', name: 'Item 2'},
-    {key: '3', name: 'Item 3'},
-    {key: '4', name: 'Item 4'},
-    {key: '5', name: 'Item 5'},
-    {key: '6', name: 'Item 6'},
-    // Add more items as needed
-  ]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('https://swapi.dev/api/people/')
+      .then(response => response.json())
+      .then(result => {
+        console.log(result.results.length);
+        setData(result?.results);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   const renderSeparator = () => (
     <View
@@ -24,17 +28,37 @@ const PeopleScreen = () => {
       }}
     />
   );
-  return (
+
+  const renderItem = useCallback(
+    ({item, index}) => {
+      return (
+        <CardView
+          index={index}
+          name={item?.name}
+          homeworld={item?.homeworld}
+          birthYear={item?.birth_year}
+        />
+      );
+    },
+    [data],
+  );
+
+  return data.length == 0 ? (
+    <VStack flex={1} justifyContent="center" alignItems="center">
+      <Spinner size={'large'} />
+    </VStack>
+  ) : (
     <ScrollView style={styles.container}>
       <VStack>
         <Heading size="lg">Popular Characters</Heading>
         <FlatList
           style={styles.hList}
+          keyExtractor={item => item?.name} // Adjust this based on your data structure
           showsHorizontalScrollIndicator={false}
           horizontal
           data={data}
           ItemSeparatorComponent={renderSeparator}
-          renderItem={({item}) => <CardView />}
+          renderItem={renderItem}
         />
       </VStack>
       <VStack>
@@ -44,8 +68,9 @@ const PeopleScreen = () => {
           showsHorizontalScrollIndicator={false}
           horizontal
           data={data}
+          keyExtractor={item => item?.name} // Adjust this based on your data structure
           ItemSeparatorComponent={renderSeparator}
-          renderItem={({item}) => <CardView />}
+          renderItem={renderItem}
         />
       </VStack>
     </ScrollView>
