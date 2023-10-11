@@ -15,6 +15,7 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
+import {XCircle} from 'lucide-react-native';
 
 const PeopleScreen = () => {
   const [data, setData] = useState([]);
@@ -124,6 +125,11 @@ const PeopleScreen = () => {
         onRequestClose={toggleModal}>
         <VStack style={styles.modalContainer}>
           <VStack borderRadius={'$2xl'} style={styles.modalContent}>
+            <Pressable
+              onPress={() => setModalVisible(state => !state)}
+              style={{position: 'absolute', top: 10, end: 10, zIndex: 1}}>
+              <XCircle size={32} color="#000" />
+            </Pressable>
             <Image
               size="2xl"
               borderTopLeftRadius={'$2xl'}
