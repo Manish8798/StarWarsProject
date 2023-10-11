@@ -60,7 +60,7 @@ const StarshipScreen = () => {
         <VStack width={'100%'} padding={10} paddingBottom={20}>
           <HStack justifyContent="space-between" alignItems="center">
             <VStack alignSelf="flex-start">
-              <Heading size="sm" paddingVertical={2}>
+              <Heading size="md" paddingVertical={2}>
                 Title
               </Heading>
               <HStack justifyContent="flex-start" alignItems="center">

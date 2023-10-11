@@ -69,7 +69,7 @@ const PlanetScreen = () => {
         </VStack>
         <Heading
           alignSelf="flex-start"
-          size="sm"
+          size="md"
           paddingVertical={2}
           paddingHorizontal={4}>
           Title

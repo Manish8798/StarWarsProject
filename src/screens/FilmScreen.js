@@ -88,7 +88,7 @@ const FilmScreen = () => {
           alignSelf="flex-start">
           Created
         </Text>
-        <Heading alignSelf="flex-start" size="sm">
+        <Heading alignSelf="flex-start" size="md">
           Title
         </Heading>
         <Text alignSelf="flex-start" size="sm">
