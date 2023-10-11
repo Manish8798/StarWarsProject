@@ -59,14 +59,24 @@ const FilmScreen = () => {
             />
           </Pressable>
         </HStack>
-        <Image
-          width={responsiveScreenWidth(100)}
-          resizeMode="cover"
-          size="xl"
-          borderRadius={'$lg'}
-          source={require('../../assets/vader.jpg')}
-          alt="item"
-        />
+        <VStack
+          style={{
+            shadowColor: 'black',
+            shadowOffset: {width: 0, height: 2},
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
+            // Add elevation for Android (Android-specific)
+            elevation: 2,
+          }}>
+          <Image
+            width={responsiveScreenWidth(100)}
+            resizeMode="cover"
+            size="xl"
+            borderRadius={'$lg'}
+            source={require('../../assets/vader.jpg')}
+            alt="item"
+          />
+        </VStack>
         <Text
           backgroundColor="#fff"
           borderColor="gray"
