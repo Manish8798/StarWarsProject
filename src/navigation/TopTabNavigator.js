@@ -95,17 +95,7 @@ export default function MyTabs() {
           name="Peoples"
           component={PeopleScreen}
         />
-        <Tab.Screen
-          options={{
-            tabBarLabel: ({focused}) => (
-              <Text size="md" style={{color: focused ? '#fff' : 'gray'}}>
-                {formatTitle('Planets')}
-              </Text>
-            ),
-          }}
-          name="Planets"
-          component={PlanetScreen}
-        />
+
         <Tab.Screen
           options={{
             tabBarLabel: ({focused}) => (
@@ -116,6 +106,17 @@ export default function MyTabs() {
           }}
           name="Films"
           component={FilmScreen}
+        />
+        <Tab.Screen
+          options={{
+            tabBarLabel: ({focused}) => (
+              <Text size="md" style={{color: focused ? '#fff' : 'gray'}}>
+                {formatTitle('Planets')}
+              </Text>
+            ),
+          }}
+          name="Planets"
+          component={PlanetScreen}
         />
         <Tab.Screen
           options={{
