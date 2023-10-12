@@ -8,6 +8,7 @@ import {
   Button,
   ButtonText,
   Image,
+  Center,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View, ScrollView, Modal} from 'react-native';
 import CardView from '../component/CardView';
@@ -26,8 +27,13 @@ const PeopleScreen = () => {
     birth_year: '',
   });
   const [currentIndex, setCurrentIndex] = useState(null);
+  const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
+    getPeople();
+  }, []);
+
+  const getPeople = () => {
     fetch('https://swapi.dev/api/people/')
       .then(response => response.json())
       .then(result => {
@@ -35,9 +41,10 @@ const PeopleScreen = () => {
         setData(result?.results);
       })
       .catch(error => {
+        setIsFailed(true);
         console.error('Error fetching data:', error);
       });
-  }, []);
+  };
 
   const getHomeworld = async (name, homeworld, birth_year) => {
     console.log(typeof homeworld);
@@ -88,6 +95,22 @@ const PeopleScreen = () => {
     [data],
   );
 
+  if (isFailed) {
+    return (
+      <Center alignSelf="center" flex={1}>
+        <Button
+          onPress={() => getPeople()}
+          size="md"
+          variant="solid"
+          action="primary"
+          isDisabled={false}
+          isFocusVisible={false}>
+          <ButtonText>Retry</ButtonText>
+        </Button>
+      </Center>
+    );
+  }
+
   return data.length == 0 ? (
     <VStack flex={1} justifyContent="center" alignItems="center">
       <Spinner size={'large'} />
@@ -124,7 +147,10 @@ const PeopleScreen = () => {
         visible={isModalVisible}
         onRequestClose={toggleModal}>
         <VStack style={styles.modalContainer}>
-          <VStack borderRadius={'$2xl'} style={styles.modalContent}>
+          <VStack
+            borderTopLeftRadius={'$2xl'}
+            borderTopRightRadius={'$2xl'}
+            style={styles.modalContent}>
             <Pressable
               onPress={() => setModalVisible(state => !state)}
               style={{position: 'absolute', top: 10, end: 10, zIndex: 1}}>

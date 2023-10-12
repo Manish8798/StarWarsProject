@@ -119,7 +119,7 @@ const PlanetScreen = () => {
           </Text>
         </VStack>
         {showMenu && currentIndex == index && (
-          <MenuPopup handleDelete={handleDelete} data={item?.title} />
+          <MenuPopup handleDelete={handleDelete} data={item?.name} />
         )}
       </Pressable>
     ),
