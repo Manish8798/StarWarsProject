@@ -7,13 +7,28 @@ import {
   Heading,
   Pressable,
   Spinner,
+  AlertDialog,
+  AlertDialogBackdrop,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogCloseButton,
+  AlertDialogFooter,
+  AlertDialogBody,
+  Button,
+  ButtonText,
+  ButtonGroup,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View} from 'react-native';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
-import {MoreHorizontal} from 'lucide-react-native';
+import {AlertCircle, MoreHorizontal} from 'lucide-react-native';
+import MenuPopup from '../component/MenuPopup';
 
 const PlanetScreen = () => {
   const [data, setData] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [selectedName, setSelectedName] = useState(null);
 
   useEffect(() => {
     fetch('https://swapi.dev/api/planets/')
@@ -27,6 +42,23 @@ const PlanetScreen = () => {
       });
   }, []);
 
+  const handleMenu = index => {
+    console.log(index, 'menu', showMenu);
+    if (currentIndex == index) {
+      setShowMenu(state => !state);
+      return;
+    }
+    setCurrentIndex(index);
+    setShowMenu(true);
+  };
+
+  const handleDelete = data => {
+    console.log(data);
+    setShowAlertDialog(true);
+    setShowMenu(false);
+    setSelectedName(data);
+  };
+
   const renderSeparator = () => (
     <View
       style={{
@@ -39,20 +71,20 @@ const PlanetScreen = () => {
 
   const renderItem = useCallback(
     ({item, index}) => (
-      <Pressable onPress={() => console.log('press')}>
+      <Pressable onPress={() => setShowMenu(false)}>
         <VStack style={styles.item}>
           <Pressable
             zIndex={1}
             position="absolute"
             alignSelf="flex-end"
-            padding={20}
-            onPress={() => console.log('menu')}>
+            padding={10}
+            onPress={() => handleMenu(index)}>
             <MoreHorizontal
               style={{
                 backgroundColor: '#fff',
               }}
               color="#000"
-              size={20}
+              size={24}
             />
           </Pressable>
           <VStack
@@ -76,20 +108,25 @@ const PlanetScreen = () => {
           <Heading
             alignSelf="flex-start"
             size="md"
-            paddingVertical={2}
+            paddingVertical={10}
             paddingHorizontal={4}>
             {item?.name}
           </Heading>
-          <Text textAlign="justify" size="sm">
+          <Text paddingBottom={10} textAlign="justify" size="sm">
             The planet is inhabited by {item?.population} creatures. The terrain
             is {item?.terrain}. With orbital period of {item?.orbital_period} of
             around its local star.
           </Text>
         </VStack>
+        {showMenu && currentIndex == index && (
+          <MenuPopup handleDelete={handleDelete} data={item?.title} />
+        )}
       </Pressable>
     ),
-    [data],
+    [data, currentIndex, showMenu],
   );
+
+  const boldText = text => <Text bold>{text}</Text>;
 
   return data.length == 0 ? (
     <VStack flex={1} justifyContent="center" alignItems="center">
@@ -108,6 +145,47 @@ const PlanetScreen = () => {
         ItemSeparatorComponent={renderSeparator}
         renderItem={renderItem}
       />
+      <AlertDialog
+        isOpen={showAlertDialog}
+        onClose={() => {
+          setShowAlertDialog(false);
+        }}>
+        <AlertDialogBackdrop />
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            {/* <Heading size="lg">Caution!</Heading> */}
+            <AlertDialogCloseButton>
+              <AlertCircle size={24} color="#FF7070" />
+            </AlertDialogCloseButton>
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            <Heading size="lg">Caution!</Heading>
+            <Text size="sm">
+              Are you sure want to Delete {boldText(selectedName)}
+            </Text>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <ButtonGroup space="xl">
+              <Button
+                variant="outline"
+                action="secondary"
+                onPress={() => {
+                  setShowAlertDialog(false);
+                }}>
+                <ButtonText>Cancel</ButtonText>
+              </Button>
+              <Button
+                bg="$error600"
+                action="negative"
+                onPress={() => {
+                  setShowAlertDialog(false);
+                }}>
+                <ButtonText>Yes</ButtonText>
+              </Button>
+            </ButtonGroup>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </VStack>
   );
 };
