@@ -9,11 +9,26 @@ import {
   Spinner,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View} from 'react-native';
-import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
-import {MoreHorizontal} from 'lucide-react-native';
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import {
+  Download,
+  Eye,
+  FolderEdit,
+  FolderMinus,
+  MoreHorizontal,
+  Trash2,
+} from 'lucide-react-native';
+import {Share} from 'lucide-react-native';
+import {Lock} from 'lucide-react-native';
+import MenuPopup from '../component/MenuPopup';
 
 const FilmScreen = () => {
   const [data, setData] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
 
   useEffect(() => {
     fetch('https://swapi.dev/api/films/')
@@ -55,15 +70,25 @@ const FilmScreen = () => {
     return formattedDateString;
   };
 
+  const handleMenu = index => {
+    console.log(index, 'menu', showMenu);
+    if (currentIndex == index) {
+      setShowMenu(state => !state);
+      return;
+    }
+    setCurrentIndex(index);
+    setShowMenu(true);
+  };
+
   const renderItem = useCallback(
     ({item, index}) => (
-      <Pressable onPress={() => console.log('press')}>
+      <Pressable onPress={() => setShowMenu(false)}>
         <VStack style={styles.item}>
           <HStack
             zIndex={1}
             width={'100%'}
             paddingHorizontal={10}
-            paddingTop={10}
+            paddingVertical={10}
             position="absolute"
             alignItems="center"
             justifyContent="space-between">
@@ -75,7 +100,7 @@ const FilmScreen = () => {
               color="#fff">
               {item?.release_date}
             </Text>
-            <Pressable onPress={() => console.log('menu')}>
+            <Pressable onPress={() => handleMenu(index)}>
               <MoreHorizontal
                 style={{backgroundColor: '#fff', zIndex: 100}}
                 color="#000"
@@ -126,9 +151,10 @@ const FilmScreen = () => {
             {item?.director}
           </Text>
         </VStack>
+        {showMenu && currentIndex == index && <MenuPopup />}
       </Pressable>
     ),
-    [data],
+    [data, currentIndex, showMenu],
   );
 
   return data.length == 0 ? (
