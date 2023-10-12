@@ -23,16 +23,7 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import {
-  Download,
-  Eye,
-  FolderEdit,
-  FolderMinus,
-  MoreHorizontal,
-  Trash2,
-} from 'lucide-react-native';
-import {Share} from 'lucide-react-native';
-import {Lock} from 'lucide-react-native';
+import {AlertCircle, MoreHorizontal} from 'lucide-react-native';
 import MenuPopup from '../component/MenuPopup';
 
 const FilmScreen = () => {
@@ -123,7 +114,7 @@ const FilmScreen = () => {
               <MoreHorizontal
                 style={{backgroundColor: '#fff', zIndex: 100}}
                 color="#000"
-                size={20}
+                size={24}
               />
             </Pressable>
           </HStack>
@@ -205,12 +196,13 @@ const FilmScreen = () => {
         <AlertDialogBackdrop />
         <AlertDialogContent>
           <AlertDialogHeader>
-            <Heading size="lg">Caution!</Heading>
+            {/* <Heading size="lg">Caution!</Heading> */}
             <AlertDialogCloseButton>
-              <Lock size={20} color="#000" />
+              <AlertCircle size={24} color="#FF7070" />
             </AlertDialogCloseButton>
           </AlertDialogHeader>
           <AlertDialogBody>
+            <Heading size="lg">Caution!</Heading>
             <Text size="sm">
               Are you sure want to Delete {boldText(selectedName)}
             </Text>
