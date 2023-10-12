@@ -7,6 +7,16 @@ import {
   Heading,
   Pressable,
   Spinner,
+  AlertDialog,
+  AlertDialogBackdrop,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogCloseButton,
+  AlertDialogFooter,
+  AlertDialogBody,
+  Button,
+  ButtonText,
+  ButtonGroup,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View} from 'react-native';
 import {
@@ -29,6 +39,8 @@ const FilmScreen = () => {
   const [data, setData] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [selectedName, setSelectedName] = useState(null);
 
   useEffect(() => {
     fetch('https://swapi.dev/api/films/')
@@ -78,6 +90,13 @@ const FilmScreen = () => {
     }
     setCurrentIndex(index);
     setShowMenu(true);
+  };
+
+  const handleDelete = data => {
+    console.log(data);
+    setShowAlertDialog(true);
+    setShowMenu(false);
+    setSelectedName(data);
   };
 
   const renderItem = useCallback(
@@ -151,11 +170,15 @@ const FilmScreen = () => {
             {item?.director}
           </Text>
         </VStack>
-        {showMenu && currentIndex == index && <MenuPopup />}
+        {showMenu && currentIndex == index && (
+          <MenuPopup handleDelete={handleDelete} data={item?.title} />
+        )}
       </Pressable>
     ),
     [data, currentIndex, showMenu],
   );
+
+  const boldText = text => <Text bold>{text}</Text>;
 
   return data.length == 0 ? (
     <VStack flex={1} justifyContent="center" alignItems="center">
@@ -174,6 +197,46 @@ const FilmScreen = () => {
         ItemSeparatorComponent={renderSeparator}
         renderItem={renderItem}
       />
+      <AlertDialog
+        isOpen={showAlertDialog}
+        onClose={() => {
+          setShowAlertDialog(false);
+        }}>
+        <AlertDialogBackdrop />
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <Heading size="lg">Caution!</Heading>
+            <AlertDialogCloseButton>
+              <Lock size={20} color="#000" />
+            </AlertDialogCloseButton>
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            <Text size="sm">
+              Are you sure want to Delete {boldText(selectedName)}
+            </Text>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <ButtonGroup space="xl">
+              <Button
+                variant="outline"
+                action="secondary"
+                onPress={() => {
+                  setShowAlertDialog(false);
+                }}>
+                <ButtonText>Cancel</ButtonText>
+              </Button>
+              <Button
+                bg="$error600"
+                action="negative"
+                onPress={() => {
+                  setShowAlertDialog(false);
+                }}>
+                <ButtonText>Yes</ButtonText>
+              </Button>
+            </ButtonGroup>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </VStack>
   );
 };

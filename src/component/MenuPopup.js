@@ -23,7 +23,7 @@ import {
 import {Share} from 'lucide-react-native';
 import {Lock} from 'lucide-react-native';
 
-const MenuPopup = () => {
+const MenuPopup = ({handleDelete, data}) => {
   return (
     <VStack
       alignSelf="flex-end"
@@ -84,7 +84,7 @@ const MenuPopup = () => {
           </Text>
         </HStack>
       </Pressable>
-      <Pressable>
+      <Pressable onPress={() => handleDelete(data)}>
         <HStack padding={5} alignItems="center" justifyContent="flex-start">
           <Trash2 size={20} color="#FF7070" style={{marginRight: 10}} />
           <Text bold size="sm" color="#FF7070">
