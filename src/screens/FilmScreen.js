@@ -19,12 +19,12 @@ import {
   ButtonGroup,
   Center,
 } from '@gluestack-ui/themed';
-import {StyleSheet, FlatList, View} from 'react-native';
+import {StyleSheet, FlatList, View, Modal} from 'react-native';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import {AlertCircle, MoreHorizontal} from 'lucide-react-native';
+import {AlertCircle, MoreHorizontal, XCircle} from 'lucide-react-native';
 import MenuPopup from '../component/MenuPopup';
 
 const FilmScreen = () => {
@@ -34,6 +34,12 @@ const FilmScreen = () => {
   const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [selectedName, setSelectedName] = useState(null);
   const [isFailed, setIsFailed] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [popupData, setPopupData] = useState({
+    title: '',
+    opening_crawl: '',
+    director: '',
+  });
 
   useEffect(() => {
     getFilms();
@@ -100,7 +106,7 @@ const FilmScreen = () => {
 
   const renderItem = useCallback(
     ({item, index}) => (
-      <Pressable onPress={() => setShowMenu(false)}>
+      <Pressable onPress={() => toggleModal(item, index)}>
         <VStack style={styles.item}>
           <HStack
             zIndex={1}
@@ -140,7 +146,7 @@ const FilmScreen = () => {
               resizeMode="cover"
               size="xl"
               borderRadius={'$lg'}
-              source={{uri: `https://picsum.photos/id/${index + 40}/400/600`}}
+              source={{uri: `https://picsum.photos/id/${index + 41}/400/600`}}
               alt="item"
             />
           </VStack>
@@ -176,6 +182,14 @@ const FilmScreen = () => {
     ),
     [data, currentIndex, showMenu],
   );
+
+  const toggleModal = (item, index) => {
+    setShowMenu(false);
+    setCurrentIndex(index);
+    const {title, opening_crawl, director} = item;
+    setPopupData({...popupData, title, opening_crawl, director});
+    setModalVisible(state => !state);
+  };
 
   const boldText = text => <Text bold>{text}</Text>;
 
@@ -253,6 +267,58 @@ const FilmScreen = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={toggleModal}>
+        <VStack style={styles.modalContainer}>
+          <VStack
+            borderTopLeftRadius={'$2xl'}
+            borderTopRightRadius={'$2xl'}
+            style={styles.modalContent}>
+            <Pressable
+              onPress={() => setModalVisible(state => !state)}
+              style={{position: 'absolute', top: 10, end: 10, zIndex: 1}}>
+              <XCircle size={32} color="#000" />
+            </Pressable>
+            <Image
+              size="2xl"
+              borderTopLeftRadius={'$2xl'}
+              borderTopRightRadius={'$2xl'}
+              alt="popup"
+              width={responsiveScreenWidth(100)}
+              source={{
+                uri: `https://picsum.photos/id/${currentIndex + 41}/400/600`,
+              }}
+            />
+            <VStack padding={20}>
+              <Heading textAlign="center">{popupData.title}</Heading>
+              <Text
+                textAlign="center"
+                paddingVertical={10}
+                size="md"
+                numberOfLines={4}>
+                {popupData?.opening_crawl}
+              </Text>
+              <Text size="md" color="blue" textAlign="center">
+                {popupData.director}
+              </Text>
+            </VStack>
+            <Button
+              bottom={20}
+              start={20}
+              end={20}
+              position="absolute"
+              onPress={() => setModalVisible(false)}
+              size="md"
+              variant="solid"
+              action="primary">
+              <ButtonText>Got It</ButtonText>
+            </Button>
+          </VStack>
+        </VStack>
+      </Modal>
     </VStack>
   );
 };
@@ -267,6 +333,19 @@ const styles = StyleSheet.create({
     // marginHorizontal: 20,
     alignItems: 'center',
     padding: 2,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+  },
+  modalContent: {
+    width: responsiveScreenWidth(100),
+    height: responsiveScreenHeight(60),
+    backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: 0,
   },
 });
 
