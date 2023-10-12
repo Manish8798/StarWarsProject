@@ -40,7 +40,7 @@ const PlanetScreen = () => {
     fetch('https://swapi.dev/api/planets/')
       .then(response => response.json())
       .then(result => {
-        console.log(result.results.length);
+        // console.log(result.results.length);
         setIsFailed(false);
         setData(result?.results);
       })
@@ -51,7 +51,7 @@ const PlanetScreen = () => {
   };
 
   const handleMenu = index => {
-    console.log(index, 'menu', showMenu);
+    // console.log(index, 'menu', showMenu);
     if (currentIndex == index) {
       setShowMenu(state => !state);
       return;
@@ -61,7 +61,7 @@ const PlanetScreen = () => {
   };
 
   const handleDelete = data => {
-    console.log(data);
+    // console.log(data);
     setShowAlertDialog(true);
     setShowMenu(false);
     setSelectedName(data);

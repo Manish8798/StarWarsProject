@@ -82,7 +82,7 @@ const FilmScreen = () => {
   };
 
   const handleMenu = index => {
-    console.log(index, 'menu', showMenu);
+    // console.log(index, 'menu', showMenu);
     if (currentIndex == index) {
       setShowMenu(state => !state);
       return;
@@ -92,7 +92,7 @@ const FilmScreen = () => {
   };
 
   const handleDelete = data => {
-    console.log(data);
+    // console.log(data);
     setShowAlertDialog(true);
     setShowMenu(false);
     setSelectedName(data);

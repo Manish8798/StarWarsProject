@@ -37,7 +37,8 @@ const PeopleScreen = () => {
     fetch('https://swapi.dev/api/people/')
       .then(response => response.json())
       .then(result => {
-        console.log(result.results.length);
+        // console.log(result.results.length);
+        setIsFailed(false);
         setData(result?.results);
       })
       .catch(error => {
@@ -47,7 +48,7 @@ const PeopleScreen = () => {
   };
 
   const getHomeworld = async (name, homeworld, birth_year) => {
-    console.log(typeof homeworld);
+    // console.log(typeof homeworld);
     await fetch(homeworld)
       .then(response => response.json())
       .then(result => {
