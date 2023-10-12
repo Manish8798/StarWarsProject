@@ -17,6 +17,7 @@ import {
   Button,
   ButtonText,
   ButtonGroup,
+  Center,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View} from 'react-native';
 import {
@@ -32,8 +33,13 @@ const FilmScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(null);
   const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [selectedName, setSelectedName] = useState(null);
+  const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
+    getFilms();
+  }, []);
+
+  const getFilms = () => {
     fetch('https://swapi.dev/api/films/')
       .then(response => response.json())
       .then(result => {
@@ -41,9 +47,10 @@ const FilmScreen = () => {
         setData(result?.results);
       })
       .catch(error => {
+        setIsFailed(true);
         console.error('Error fetching data:', error);
       });
-  }, []);
+  };
 
   const renderSeparator = () => (
     <View
@@ -170,6 +177,22 @@ const FilmScreen = () => {
   );
 
   const boldText = text => <Text bold>{text}</Text>;
+
+  if (isFailed) {
+    return (
+      <Center alignSelf="center" flex={1}>
+        <Button
+          onPress={() => getFilms()}
+          size="md"
+          variant="solid"
+          action="primary"
+          isDisabled={false}
+          isFocusVisible={false}>
+          <ButtonText>Retry</ButtonText>
+        </Button>
+      </Center>
+    );
+  }
 
   return data.length == 0 ? (
     <VStack flex={1} justifyContent="center" alignItems="center">
