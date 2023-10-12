@@ -43,7 +43,8 @@ const FilmScreen = () => {
     fetch('https://swapi.dev/api/films/')
       .then(response => response.json())
       .then(result => {
-        console.log(result.results.length);
+        // console.log(result.results.length);
+        setIsFailed(false);
         setData(result?.results);
       })
       .catch(error => {

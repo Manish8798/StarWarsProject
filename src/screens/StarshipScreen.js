@@ -7,6 +7,9 @@ import {
   Heading,
   Pressable,
   Spinner,
+  Center,
+  Button,
+  ButtonText,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View} from 'react-native';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
@@ -14,18 +17,25 @@ import {DotIcon} from 'lucide-react-native';
 
 const StarshipScreen = () => {
   const [data, setData] = useState([]);
+  const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
+    getStarships();
+  }, []);
+
+  const getStarships = () => {
     fetch('https://swapi.dev/api/starships/')
       .then(response => response.json())
       .then(result => {
-        console.log(result.results.length);
+        // console.log(result.results.length);
+        setIsFailed(false);
         setData(result?.results);
       })
       .catch(error => {
+        setIsFailed(true);
         console.error('Error fetching data:', error);
       });
-  }, []);
+  };
 
   const renderSeparator = () => (
     <View
@@ -97,6 +107,22 @@ const StarshipScreen = () => {
     ),
     [data],
   );
+
+  if (isFailed) {
+    return (
+      <Center alignSelf="center" flex={1}>
+        <Button
+          onPress={() => getStarships()}
+          size="md"
+          variant="solid"
+          action="primary"
+          isDisabled={false}
+          isFocusVisible={false}>
+          <ButtonText>Retry</ButtonText>
+        </Button>
+      </Center>
+    );
+  }
 
   return data.length == 0 ? (
     <VStack flex={1} justifyContent="center" alignItems="center">

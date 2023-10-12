@@ -17,6 +17,7 @@ import {
   Button,
   ButtonText,
   ButtonGroup,
+  Center,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View} from 'react-native';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
@@ -29,18 +30,25 @@ const PlanetScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(null);
   const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [selectedName, setSelectedName] = useState(null);
+  const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
+    getPlanets();
+  }, []);
+
+  const getPlanets = () => {
     fetch('https://swapi.dev/api/planets/')
       .then(response => response.json())
       .then(result => {
         console.log(result.results.length);
+        setIsFailed(false);
         setData(result?.results);
       })
       .catch(error => {
+        setIsFailed(true);
         console.error('Error fetching data:', error);
       });
-  }, []);
+  };
 
   const handleMenu = index => {
     console.log(index, 'menu', showMenu);
@@ -127,6 +135,22 @@ const PlanetScreen = () => {
   );
 
   const boldText = text => <Text bold>{text}</Text>;
+
+  if (isFailed) {
+    return (
+      <Center alignSelf="center" flex={1}>
+        <Button
+          onPress={() => getPlanets()}
+          size="md"
+          variant="solid"
+          action="primary"
+          isDisabled={false}
+          isFocusVisible={false}>
+          <ButtonText>Retry</ButtonText>
+        </Button>
+      </Center>
+    );
+  }
 
   return data.length == 0 ? (
     <VStack flex={1} justifyContent="center" alignItems="center">
