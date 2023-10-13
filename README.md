@@ -77,3 +77,11 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+# UI
+I used [**gluestack-ui**](https://gluestack.io/ui/docs/overview/all-components) components for better user experience.
+
+![starswars_ss1](https://github.com/Manish8798/StarWarsProject/assets/68828115/1556f62b-33fb-4f87-abd6-de7bffe2d0f1)
+![starswars_ss2](https://github.com/Manish8798/StarWarsProject/assets/68828115/c2df8fa9-30fc-4780-909c-b5ceb7a81c0b)
+![starswars_ss3](https://github.com/Manish8798/StarWarsProject/assets/68828115/ae31f1ed-aa0d-4331-a7e9-de24f489eb1f)
+![starwars_ss4](https://github.com/Manish8798/StarWarsProject/assets/68828115/90643c6c-b3e2-4482-92b2-d60c9219f1c1)
