@@ -10,6 +10,7 @@ import {
   Center,
   Button,
   ButtonText,
+  ButtonSpinner,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View} from 'react-native';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
@@ -18,20 +19,26 @@ import {DotIcon} from 'lucide-react-native';
 const StarshipScreen = () => {
   const [data, setData] = useState([]);
   const [isFailed, setIsFailed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getStarships();
   }, []);
 
   const getStarships = () => {
+    setIsLoading(true);
     fetch('https://swapi.dev/api/starships/')
       .then(response => response.json())
       .then(result => {
         // console.log(result.results.length);
+        setIsLoading(false);
         setIsFailed(false);
         setData(result?.results);
       })
       .catch(error => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
         setIsFailed(true);
         console.error('Error fetching data:', error);
       });
@@ -118,7 +125,8 @@ const StarshipScreen = () => {
           action="primary"
           isDisabled={false}
           isFocusVisible={false}>
-          <ButtonText>Retry</ButtonText>
+          <ButtonText>Retry </ButtonText>
+          {isLoading && <ButtonSpinner />}
         </Button>
       </Center>
     );

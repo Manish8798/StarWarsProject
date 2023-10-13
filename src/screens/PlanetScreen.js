@@ -17,6 +17,7 @@ import {
   Button,
   ButtonText,
   ButtonGroup,
+  ButtonSpinner,
   Center,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View} from 'react-native';
@@ -31,20 +32,26 @@ const PlanetScreen = () => {
   const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [selectedName, setSelectedName] = useState(null);
   const [isFailed, setIsFailed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getPlanets();
   }, []);
 
   const getPlanets = () => {
+    setIsLoading(true);
     fetch('https://swapi.dev/api/planets/')
       .then(response => response.json())
       .then(result => {
         // console.log(result.results.length);
+        setIsLoading(false);
         setIsFailed(false);
         setData(result?.results);
       })
       .catch(error => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
         setIsFailed(true);
         console.error('Error fetching data:', error);
       });
@@ -146,7 +153,8 @@ const PlanetScreen = () => {
           action="primary"
           isDisabled={false}
           isFocusVisible={false}>
-          <ButtonText>Retry</ButtonText>
+          <ButtonText>Retry </ButtonText>
+          {isLoading && <ButtonSpinner />}
         </Button>
       </Center>
     );

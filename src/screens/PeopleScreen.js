@@ -9,6 +9,7 @@ import {
   ButtonText,
   Image,
   Center,
+  ButtonSpinner,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View, ScrollView, Modal} from 'react-native';
 import CardView from '../component/CardView';
@@ -28,20 +29,26 @@ const PeopleScreen = () => {
   });
   const [currentIndex, setCurrentIndex] = useState(null);
   const [isFailed, setIsFailed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getPeople();
   }, []);
 
   const getPeople = () => {
+    setIsLoading(true);
     fetch('https://swapi.dev/api/people/')
       .then(response => response.json())
       .then(result => {
         // console.log(result.results.length);
+        setIsLoading(false);
         setIsFailed(false);
         setData(result?.results);
       })
       .catch(error => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
         setIsFailed(true);
         console.error('Error fetching data:', error);
       });
@@ -106,7 +113,8 @@ const PeopleScreen = () => {
           action="primary"
           isDisabled={false}
           isFocusVisible={false}>
-          <ButtonText>Retry</ButtonText>
+          <ButtonText>Retry </ButtonText>
+          {isLoading && <ButtonSpinner />}
         </Button>
       </Center>
     );

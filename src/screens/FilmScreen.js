@@ -18,6 +18,7 @@ import {
   ButtonText,
   ButtonGroup,
   Center,
+  ButtonSpinner,
 } from '@gluestack-ui/themed';
 import {StyleSheet, FlatList, View, Modal} from 'react-native';
 import {
@@ -40,20 +41,26 @@ const FilmScreen = () => {
     opening_crawl: '',
     director: '',
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getFilms();
   }, []);
 
   const getFilms = () => {
+    setIsLoading(true);
     fetch('https://swapi.dev/api/films/')
       .then(response => response.json())
       .then(result => {
         // console.log(result.results.length);
+        setIsLoading(false);
         setIsFailed(false);
         setData(result?.results);
       })
       .catch(error => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
         setIsFailed(true);
         console.error('Error fetching data:', error);
       });
@@ -203,7 +210,8 @@ const FilmScreen = () => {
           action="primary"
           isDisabled={false}
           isFocusVisible={false}>
-          <ButtonText>Retry</ButtonText>
+          <ButtonText>Retry </ButtonText>
+          {isLoading && <ButtonSpinner />}
         </Button>
       </Center>
     );
