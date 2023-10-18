@@ -80,7 +80,11 @@ To learn more about React Native, take a look at the following resources:
 
 # UI
 I used [**gluestack-ui**](https://gluestack.io/ui/docs/overview/all-components) components for better user experience.
-![Screenshot_1697595119](https://github.com/Manish8798/StarWarsProject/assets/68828115/d8508753-3b7a-4a07-ae4c-f08638ad4a4a)
-![Screenshot_1697595124](https://github.com/Manish8798/StarWarsProject/assets/68828115/5b786e2e-c56e-4a70-83e7-a3e28728376b)
-![Screenshot_1697595127](https://github.com/Manish8798/StarWarsProject/assets/68828115/e63af424-d4cf-4102-8cb0-e6acc570132e)
-![Screenshot_1697595132](https://github.com/Manish8798/StarWarsProject/assets/68828115/a6046d9e-2c4b-444f-a31c-20b211aad0eb)
+
+<img src="https://github.com/Manish8798/StarWarsProject/assets/68828115/d8508753-3b7a-4a07-ae4c-f08638ad4a4a" width="400" height="900">
+<br/>
+<img src="https://github.com/Manish8798/StarWarsProject/assets/68828115/5b786e2e-c56e-4a70-83e7-a3e28728376b" width="400" height="900">
+<br/>
+<img src="https://github.com/Manish8798/StarWarsProject/assets/68828115/e63af424-d4cf-4102-8cb0-e6acc570132e" width="400" height="900">
+<br/>
+<img src="https://github.com/Manish8798/StarWarsProject/assets/68828115/a6046d9e-2c4b-444f-a31c-20b211aad0eb" width="400" height="900">
