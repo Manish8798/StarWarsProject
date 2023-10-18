@@ -132,11 +132,13 @@ const FilmScreen = () => {
               {item?.release_date}
             </Text>
             <Pressable onPress={() => handleMenu(index)}>
-              <MoreHorizontal
-                style={{backgroundColor: '#fff', zIndex: 100}}
-                color="#000"
-                size={24}
-              />
+              <VStack borderRadius={'$md'} backgroundColor="#fff" padding={2}>
+                <MoreHorizontal
+                  style={{backgroundColor: '#fff'}}
+                  color="#000"
+                  size={20}
+                />
+              </VStack>
             </Pressable>
           </HStack>
           <VStack
@@ -191,6 +193,10 @@ const FilmScreen = () => {
   );
 
   const toggleModal = (item, index) => {
+    if (showMenu) {
+      setShowMenu(false);
+      return;
+    }
     setShowMenu(false);
     setCurrentIndex(index);
     const {title, opening_crawl, director} = item;

@@ -94,13 +94,13 @@ const PlanetScreen = () => {
             alignSelf="flex-end"
             padding={10}
             onPress={() => handleMenu(index)}>
-            <MoreHorizontal
-              style={{
-                backgroundColor: '#fff',
-              }}
-              color="#000"
-              size={24}
-            />
+            <VStack borderRadius={'$md'} backgroundColor="#fff" padding={2}>
+              <MoreHorizontal
+                style={{backgroundColor: '#fff'}}
+                color="#000"
+                size={20}
+              />
+            </VStack>
           </Pressable>
           <VStack
             style={{
