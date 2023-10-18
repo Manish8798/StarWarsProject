@@ -70,10 +70,12 @@ const PeopleScreen = () => {
       });
   };
 
-  const toggleModal = async (item, index) => {
+  const toggleModal = async (item, index, homeworld) => {
     setCurrentIndex(index);
-    const {name, homeworld, birth_year} = item;
-    await getHomeworld(name, homeworld, birth_year);
+    const {name, birth_year} = item;
+    setPopupData({...popupData, name, homeworld, birth_year});
+    setModalVisible(state => !state);
+    // await getHomeworld(name, homeworld, birth_year);
     // console.log('toggle', isModalVisible, popupData);
   };
 
@@ -89,16 +91,7 @@ const PeopleScreen = () => {
 
   const renderItem = useCallback(
     ({item, index}) => {
-      return (
-        <Pressable onPress={() => toggleModal(item, index)}>
-          <CardView
-            index={index}
-            name={item?.name}
-            homeworld={item?.homeworld}
-            birthYear={item?.birth_year}
-          />
-        </Pressable>
-      );
+      return <CardView index={index} item={item} toggleModal={toggleModal} />;
     },
     [data],
   );
